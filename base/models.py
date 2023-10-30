@@ -20,12 +20,12 @@ class Room(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
-    # participants = 
+    participants = models.ManyToManyField(User, related_name="participants", blank=True)
     updated = models.DateTimeField(auto_now=True)
-    create = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
     
     class Meta:
-        ordering = ['-updated', '-create']   # ???? Должно быть created ошибка у меня create
+        ordering = ['-updated', '-created']   # ???? Должно быть created ошибка у меня create
     
     def __str__(self):
         return self.name
@@ -35,7 +35,7 @@ class Message(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)  # alternative SET_NULL
     body = models.TextField()
     updated = models.DateTimeField(auto_now=True)
-    create = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
     
     def __str__(self) -> str:
         return self.body[0:50]
